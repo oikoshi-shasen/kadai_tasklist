@@ -12,14 +12,18 @@ class TasksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct(){
+         $this->middleware('auth');
+     }
+        
     public function index()
     {
-        $tasks = Task::all();
-
-        return view('tasks.index', [
-            'tasks' => $tasks,
-        ]);
-    }
+       
+            $tasks = Task::all();
+            return view('tasks.index', [
+                'tasks' => $tasks,
+            ]);
+        }
     /**
      * Show the form for creating a new resource.
      *
