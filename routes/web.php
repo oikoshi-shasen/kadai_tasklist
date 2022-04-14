@@ -33,6 +33,7 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 Route::get('/home', function () {return view('welcome');}) -> name('backhome');
 
 Route::get('/', 'TasksController@index');
+
 Route::resource('tasks', 'TasksController');
 /*
 Route::group(['middleware' => ['auth']], function () {

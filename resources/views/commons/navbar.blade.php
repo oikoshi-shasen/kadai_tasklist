@@ -18,7 +18,6 @@
                             {{-- ログインページへのリンク --}}
                             <li>{!! link_to_route('login', 'Login', [], ['class' => 'nav-link']) !!}</li>
                         @endif
-
                     </ul>
                 </div>
             </nav>

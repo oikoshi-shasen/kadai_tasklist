@@ -18,8 +18,10 @@ class TasksController extends Controller
         
     public function index()
     {
-       
-            $tasks = Task::all();
+            $user = \Auth::user();
+            $tasks = $user->tasks;
+            // print($tasks);
+            // $tasks = Task::where('user_id',=,$user->id)->all();
             return view('tasks.index', [
                 'tasks' => $tasks,
             ]);
@@ -56,6 +58,7 @@ class TasksController extends Controller
         $task = new Task;
         $task->status = $request->status;
         $task->content = $request->content;
+        $task->user_id = \Auth::user()->id;
         $task->save();
 
         // トップページへリダイレクトさせる
@@ -66,13 +69,18 @@ class TasksController extends Controller
     // getでtasks/（任意のid）にアクセスされた場合の「取得表示処理」
        public function show($id)
     {
+        
         // idの値でメッセージを検索して取得
         $task = Task::findOrFail($id);
-
+        
+        if (\Auth::id() === $task->user_id){
         // メッセージ詳細ビューでそれを表示
         return view('tasks.show', [
             'task' => $task,
-        ]);
+        ]);}
+        else{
+            return redirect('/');
+        }
     }
 
     // getでtasks/（任意のid）/editにアクセスされた場合の「更新画面表示処理」
@@ -82,9 +90,12 @@ class TasksController extends Controller
         $task = Task::findOrFail($id);
 
         // メッセージ編集ビューでそれを表示
-        return view('tasks.edit', [
-            'task' => $task,
-        ]);
+        if (\Auth::id() === $task->user_id){
+            return view('tasks.edit', ['task' => $task,]);
+        }
+        else{
+            return redirect('/');
+        }
     }
 
     // putまたはpatchでtasks/（任意のid）にアクセスされた場合の「更新処理」
@@ -112,7 +123,6 @@ class TasksController extends Controller
         $task = Task::findOrFail($id);
         // メッセージを削除
         $task->delete();
-
         // トップページへリダイレクトさせる
         return redirect('/');
     }
