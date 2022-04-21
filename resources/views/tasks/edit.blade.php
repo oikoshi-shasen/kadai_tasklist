@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
-    <h1>id: {{ $task->id }} のメッセージ編集ページ</h1>
+    <h1>id: {{ $task->id }} のタスク編集ページ</h1>
 
     <div class="row">
         <div class="col-6">
